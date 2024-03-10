@@ -39,6 +39,32 @@ int main(int argc, char const *argv[])
     }
 
     cout << "connect success" << endl;
+
+    constexpr char tosend[]  {"GET /index.html HTTP/1.1\nHOST:www.dt4sw.com\nUser-Agent:TEST\nConnection:close\n\n"};
+    int len(send(sock, tosend, strlen(tosend), 0));
+    cout << "send bytes :" << len << endl;
+
+    len = 0;
+
+    int r{};
+    do
+    {
+        char buf[128]{};
+        r = recv(sock, buf, sizeof(buf)/sizeof(*buf), 0);
+
+        if(r > 0){
+            len += r;
+        }
+
+        for (int i{}; i < r; i++)
+        {
+            cout << buf[i];
+        }
+        
+    } while (r > 0);
+    
+    cout << "\nrecv len = " << len << endl;
+
     close(sock);
 
     return 0;
