@@ -1,11 +1,9 @@
-#include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include <cstdio>
-#include <cstring>
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 
@@ -15,21 +13,22 @@ int main(int argc, char const *argv[])
     sock = socket(PF_INET, SOCK_STREAM, 0);
 
     if(-1 == sock){
-        cout << "sock error" << endl;
+        cout << "Socket error" << endl;
         return -1;
     }
 
     const char* ipAddrStr = "47.99.217.175";
-    struct sockaddr_in addr = {0};
+    sockaddr_in addr {};
     addr.sin_family = AF_INET;
     
     /*inet_addr() 将有效字符串转换为32位二进制网络字节序的IPV4地址*/
     //addr.sin_addr.s_addr = inet_addr("47.99.217.175");
 
-    if(!inet_aton(ipAddrStr,&addr.sin_addr)){
-        cout << "changer error" << endl;
+    if(!inet_pton(AF_INET, ipAddrStr, &addr.sin_addr)){
+        cout << "Invalid address" << endl;
         return -1;
     }
+
     /*htons() 把本机字节序转换成网络字节序*/
     addr.sin_port = htons(80);
 
@@ -54,11 +53,10 @@ int main(int argc, char const *argv[])
 
         if(r > 0){
             len += r;
-        }
-
-        for (int i{}; i < r; i++)
-        {
-            cout << buf[i];
+            for (int i = 0; i < r; i++)
+            {
+                cout << buf[i];
+            }
         }
         
     } while (r > 0);
