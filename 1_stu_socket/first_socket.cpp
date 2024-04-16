@@ -19,7 +19,6 @@ int main(int argc, char const *argv[])
 
     const char* ipAddrStr = "47.99.217.175";
     sockaddr_in addr {};
-    addr.sin_family = AF_INET;
     
     /*inet_addr() 将有效字符串转换为32位二进制网络字节序的IPV4地址*/
     //addr.sin_addr.s_addr = inet_addr("47.99.217.175");
