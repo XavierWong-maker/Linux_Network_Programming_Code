@@ -48,7 +48,7 @@ int main(int argc, char const *argv[])
         int r (recv(sock, buf, sizeof(buf), 0));
 
         if(r > 0){
-            // cout << "Receive :" << buf << endl;
+            cout << "Receive :" << buf << endl;
         }else{ /* 与服务端断开连接 recv(...) 返回 0 */
             cout << "client quit r :" << r << '\n';
             break;
